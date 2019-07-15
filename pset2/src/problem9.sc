@@ -4,6 +4,7 @@
 
 import scala.io.StdIn._ // import all standard inputs
 import scala.collection.immutable.Map
+import scala.collection.mutable.ArrayBuffer
 import helpers.get._ // import helpers, get user input functions
 
 object problem9 { // Change to correct object name
@@ -15,13 +16,16 @@ object problem9 { // Change to correct object name
       "four" -> 3,
       "five" -> 2,
     )
-
-    val value: Int = integer("Please enter an integer value to search for: ")
-
-    println(s"the value $value, appears in the test map ${search(testMap, value)} time(s).")
+    println(s"there are ${distinct(testMap)} distinct values in the test map.")
   }
 
-  def search(map: Map[String, Int], value: Int): Int = {
-    map.values.count((v) => v == value)
+  def distinct(map: Map[String, Int]): Int = {
+    val arr: ArrayBuffer[Int] = ArrayBuffer()
+
+    for(n <- map.values){
+      if(!arr.contains(n)) arr += n
+    }
+
+    arr.length
   }
 }

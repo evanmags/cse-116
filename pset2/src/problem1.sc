@@ -11,7 +11,6 @@ import scala.io.StdIn._ // import all standard inputs
 object problem1 {
   def main(args: Array[String]): Unit = {
     val phrase: String = readLine("Please enter a string: ")
-
     val not: String = if(isPalindrome(phrase)) "" else " NOT"
 
     println(s"'$phrase' is$not a palindrome")

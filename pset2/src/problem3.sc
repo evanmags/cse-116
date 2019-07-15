@@ -20,7 +20,6 @@ object problem3 {
 
     for (n <- 0 until arr.length){
       var i: Int = (arr.length - 1) - n;
-
       resString += s"${arr(i)} ";
     }
 
