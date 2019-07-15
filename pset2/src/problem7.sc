@@ -18,13 +18,10 @@ object problem7 { // Change to correct object name
     var mutNum: Int = num 
     while (mutNum > 0){
       var digit: Int = mutNum % 10
-      
-      if (digit % 2 != 0){
-        return false
-      }
+    
+      if (digit % 2 != 0) return false
 
-      mutNum -= digit
-      mutNum /= 10
+      mutNum = (mutNum - digit) / 10
     }
 
     return true
