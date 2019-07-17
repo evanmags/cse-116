@@ -22,9 +22,9 @@ object problem10 { // Change to correct object name
   def makeSparse(vec: Vector[Int]): Map[Int, Int] = {
     var sparse: Map[Int, Int] = Map()
     
-    for(n <- 0 until vec.length){
-      if(vec(n) != 0){
-        sparse += (n -> vec(n))
+    for(i <- 0 until vec.length){
+      if(vec(i) != 0){
+        sparse += (i -> vec(i))
       }
     }
 
@@ -34,35 +34,30 @@ object problem10 { // Change to correct object name
   // needs to handle 
   def sumSparse(vec1: Map[Int, Int], vec2: Map[Int, Int]): Map[Int, Int] = {
     var sum: Map[Int, Int] = Map()
-    for (key <- vec1.keys){
-      sum += (key -> vec1(key))
-    }
-    for (key <- vec2.keys){
-      if(vec1.get(key) != None){
-        sum(key) += vec2(key)
+
+    for (vec <- List[Map[Int, Int]](vec1, vec2)){
+      for (key <- vec.keys){
+        if(sum.get(key) != None){
+          sum(key) += vec(key)
+        }
+        else sum += (key -> vec(key))
       }
-      else sum += (key -> vec2(key))
     }
     return sum
   }
 
   def dotSumSparse(vec1: Map[Int, Int], vec2: Map[Int, Int]): Int = {
     var dot: Map[Int, Int] = Map()
-    for (key <- vec1.keys){
-      dot += (key -> vec1(key))
-    }
-    for (key <- vec2.keys){
-      if(vec1.get(key) != None){
-        dot(key) *= vec2(key)
+    
+    for (vec <- List[Map[Int, Int]](vec1, vec2)){
+      for (key <- vec.keys){
+        if(dot.get(key) != None){
+          dot(key) *= vec(key)
+        }
+        else dot += (key -> vec(key))
       }
-      else dot += (key -> vec2(key))
     }
     
-    var dotSum: Int = 0
-    for (value <- dot.values){
-      dotSum += value
-    }
-
-    return dotSum
+    dot.values.sum
   }
 }
