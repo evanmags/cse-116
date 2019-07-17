@@ -15,17 +15,9 @@ class Score(teamName: String){
   val team: String = teamName
   private var score: Int = 0
 
-  def isWinner(s: Score): Boolean = {
-    score > s.getScore()
-  }
-
-  def scoreGoal(): Unit = {
-    score += 1
-  }
-
-  def getScore(): Int = {
-    score
-  }
+  def isWinner(s: Score): Boolean = score > s.getScore()
+  def scoreGoal(): Unit = score += 1
+  def getScore(): Int = score
 }
 
 object Test {
@@ -33,9 +25,8 @@ object Test {
     val teams: List[Score] = List(new Score("team-A"), new Score("team-B"))
     val rndm: Random = new Random()
 
-    for(team <- teams){
-      for(n <- 0 to rndm.nextInt(10)) team.scoreGoal()
-    }
+    for(team <- teams;
+           n <- 0 to rndm.nextInt(10)) team.scoreGoal()
     
     for(us <- 0 to 1){
       val them: Int = if(us == 0) 1 else 0

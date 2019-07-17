@@ -16,21 +16,21 @@ import scala.collection.mutable.Map
 import scala.collection.immutable.List
 
 class SparseVector(members: Float*){
+  // constructor
   val hash: Map[Int, Float] = Map()
   for(n <- 0 until members.length){
     if(members(n) != 0) hash += (n -> members(n))
   }
 
-  def values(): Seq[Float] = {
-    return hash.values.toList
-  }
+  def values(): List[Float] = hash.values.toList
+
+  private def +(a: Float, b: Float): Float = a + b
+  private def -(a: Float, b: Float): Float = a - b
+  private def *(a: Float, b: Float): Float = a * b
 
   private def toVector(): List[Float] = {
     val max: Int = hash.keys.max
-    
     var result: List[Float] = List()
-
-
     for(i <- 0 to max){
       if(hash.get(i) == None){
         result = 0::result
@@ -38,41 +38,28 @@ class SparseVector(members: Float*){
         result = hash(i)::result
       }
     }
-
-    return result.reverse
+    result.reverse
   }
 
-  def sum(other: SparseVector): SparseVector = { 
-    var summed: List[Float] = List()
+  private def opperate(other: SparseVector, op: (Float, Float) => Float): SparseVector = { 
+    var res: List[Float] = List()
     val self: List[Float] = toVector()
 
     for(i <- 0 until self.length){
       if(other.hash.get(i) != None){
-        summed = (self(i) + other.hash(i))::summed
+        res = op(self(i), other.hash(i))::res
       }
-      else {
-        summed = self(i)::summed
-      }
+      // inefficent but it works
+      else if (op(5, 4) == *(5, 4)) res = 0::res
+      else res = self(i)::res
     }
     
-    return new SparseVector(summed.reverse: _*)
+    return new SparseVector(res.reverse: _*)
   }
 
-  def difference(other: SparseVector): SparseVector = { 
-    var diff: List[Float] = List()
-    val self: List[Float] = toVector()
-
-    for(i <- 0 until self.length){
-      if(other.hash.get(i) != None){
-        diff = (self(i) - other.hash(i))::diff
-      }
-      else {
-        diff = self(i)::diff
-      }
-    }
-    
-    return new SparseVector(diff.reverse: _*)
-  }
+  def sum(other: SparseVector): SparseVector = opperate(other, +)
+  def difference(other: SparseVector): SparseVector = opperate(other, -)
+  def dot(other: SparseVector): Float = opperate(other, *).values.sum
 
   def scalarMult(scalar: Float): SparseVector = {
     var prod: List[Float] = List()
@@ -85,43 +72,16 @@ class SparseVector(members: Float*){
     return new SparseVector(prod.reverse: _*)
   }
 
-  private def multiply(other: SparseVector): SparseVector = { 
-    var prod: List[Float] = List()
-    val self: List[Float] = toVector()
-
-    for(i <- 0 until self.length){
-      if(other.hash.get(i) != None){
-        prod = (self(i) * other.hash(i))::prod
-      }
-      else {
-        prod = 0::prod
-      }
-    }
-    
-    return new SparseVector(prod.reverse: _*)
-  }
-
-  def dot(other: SparseVector): Float = {
-    multiply(other).values.sum
-  }
 }
 
-// sparse vectors are combining incorrectly
-
-object Test_Sparse { // Change to correct object name
+object Test_Sparse {
   def main(args: Array[String]): Unit = {
     val s1 = new SparseVector(0, 1, 0, 2, 0, 3)
     val s2 = new SparseVector(3, 0, 0, 1, 0, 1)
 
-    println(s1.sum(s2).hash) // good
-    // (3, 1, 0, 3, 0, 4)
-    println(s1.difference(s2).hash) // good
-    // (-3, 1, 0, 1, 0, 2)
-    println(s1.scalarMult(3).hash)
-    // (0, 3, 0, 6, 0, 9)
-    println(s1.dot(s2))
-    // 5
-    println(s1.cross(s2))
-
+    println(s1.sum(s2).hash) // (3, 1, 0, 3, 0, 4)
+    println(s1.difference(s2).hash) // (-3, 1, 0, 1, 0, 2)
+    println(s1.scalarMult(3).hash) // (0, 3, 0, 6, 0, 9)
+    println(s1.dot(s2)) // 5
   }
 }
