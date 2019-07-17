@@ -30,15 +30,19 @@ class Score(teamName: String){
 
 object Test {
   def main(args: Array[String]): Unit = {
-    val s1: Score = new Score("team-A");
-    val s2: Score = new Score("team-B");
-
+    val teams: List[Score] = List(new Score("team-A"), new Score("team-B"))
     val rndm: Random = new Random()
 
-    for(n <- 0 to rndm.nextInt(10)) s1.scoreGoal()
-    for(n <- 0 to rndm.nextInt(10)) s2.scoreGoal()
+    for(team <- teams){
+      for(n <- 0 to rndm.nextInt(10)) team.scoreGoal()
+    }
+    
+    for(us <- 0 to 1){
+      val them: Int = if(us == 0) 1 else 0
 
-    println(s1.isWinner(s2))
-    println(s2.isWinner(s1))
+      val result = if(teams(us).isWinner(teams(them))) "winner" else "loser"
+      println(s"${teams(us).team} is the $result")
+    }
   }
 }
+
