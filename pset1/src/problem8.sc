@@ -11,13 +11,13 @@ import scala.io.StdIn._
 import scala.collection.mutable.ArrayBuffer
 import helpers.get._
 
-object problem9 {
+object problem8 {
   def main (args: Array[String]): Unit = {
     val num1: Int = integer("Please enter an integer (1 of 3): ");
     val num2: Int = integer("Please enter an integer (2 of 3): ");
     val num3: Int = integer("Please enter an integer (3 of 3): ");
 
-    printSorted(num1, num2, num3);
+    1;
   }
 
   def printSorted(a: Int, b: Int, c: Int): Unit = {

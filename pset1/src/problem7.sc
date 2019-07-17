@@ -12,6 +12,7 @@ object problem7 {
   }
 
   def isPrime(num: Int): Boolean = {
+    if(num == 0 || num == 1) return false
     for (divisor <- 2 until (num / 2)){
       if (num % divisor == 0) return false;
     }
