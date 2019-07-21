@@ -13,7 +13,6 @@
 //
 
 import scala.collection.mutable.Map
-import scala.collection.immutable.List
 
 class SparseVector(members: Float*){
   // constructor
@@ -22,56 +21,37 @@ class SparseVector(members: Float*){
     if(members(n) != 0) hash += (n -> members(n))
   }
 
-  def values(): List[Float] = hash.values.toList
-
   private def +(a: Float, b: Float): Float = a + b
   private def -(a: Float, b: Float): Float = a - b
   private def *(a: Float, b: Float): Float = a * b
-
   private def toVector(): List[Float] = {
     val max: Int = hash.keys.max
-    var result: List[Float] = List()
-    for(i <- 0 to max){
-      if(hash.get(i) == None){
-        result = 0::result
-      } else {
-        result = hash(i)::result
-      }
+    val result: Seq[Float] = for(i <- 0 to max) yield {
+      if(hash.get(i) == None) 0
+      else hash(i)
     }
-    result.reverse
+    result.toList
   }
-
   private def opperate(other: SparseVector, op: (Float, Float) => Float): SparseVector = { 
-    var res: List[Float] = List()
     val self: List[Float] = toVector()
-
-    for(i <- 0 until self.length){
-      if(other.hash.get(i) != None){
-        res = op(self(i), other.hash(i))::res
-      }
-      // inefficent but it works
-      else if (op(5, 4) == *(5, 4)) res = 0::res
-      else res = self(i)::res
+    val res: Seq[Float] = for(i <- 0 until self.length) yield {
+      if(other.hash.get(i) != None) op(self(i), other.hash(i))
+      else if (op(5, 4) == *(5, 4)) 0 // inefficent but it works
+      else self(i)
     }
-    
-    return new SparseVector(res.reverse: _*)
+    return new SparseVector(res.toList: _*)
   }
 
+  def values(): List[Float] = hash.values.toList
   def sum(other: SparseVector): SparseVector = opperate(other, +)
   def difference(other: SparseVector): SparseVector = opperate(other, -)
   def dot(other: SparseVector): Float = opperate(other, *).values.sum
-
   def scalarMult(scalar: Float): SparseVector = {
-    var prod: List[Float] = List()
     val self: List[Float] = toVector()
+    val prod = for (value <- self) yield (value * scalar)
 
-    for (value <- self){
-      prod = (value * scalar)::prod
-    }
-
-    return new SparseVector(prod.reverse: _*)
+    return new SparseVector(prod.toList: _*)
   }
-
 }
 
 object Test_Sparse {

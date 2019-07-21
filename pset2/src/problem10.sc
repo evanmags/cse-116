@@ -43,21 +43,13 @@ object problem10 { // Change to correct object name
         else sum += (key -> vec(key))
       }
     }
+
     return sum
   }
 
-  def dotSumSparse(vec1: Map[Int, Int], vec2: Map[Int, Int]): Int = {
-    var dot: Map[Int, Int] = Map()
-    
-    for (vec <- List[Map[Int, Int]](vec1, vec2)){
-      for (key <- vec.keys){
-        if(dot.get(key) != None){
-          dot(key) *= vec(key)
-        }
-        else dot += (key -> vec(key))
-      }
-    }
-    
-    dot.values.sum
+  def dotSumSparse(svec1: Map[Int, Int], svec2: Map[Int, Int]): Int = {
+    val dot: Iterable[Int] = for(key <- svec1.keys if(svec2.get(key) != None)) 
+                  yield svec1(key) * svec2(key);
+    dot.sum
   }
 }

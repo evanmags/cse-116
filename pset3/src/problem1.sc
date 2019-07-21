@@ -15,9 +15,9 @@ class Score(teamName: String){
   val team: String = teamName
   private var score: Int = 0
 
+  def getScore(): Int = score
   def isWinner(s: Score): Boolean = score > s.getScore()
   def scoreGoal(): Unit = score += 1
-  def getScore(): Int = score
 }
 
 object Test {
@@ -36,4 +36,4 @@ object Test {
     }
   }
 }
-
+ 
