@@ -9,8 +9,8 @@ import helpers.get._ // import helpers, get user input functions
 
 object problem10 { // Change to correct object name
   def main(args: Array[String]): Unit = {
-    val vec1: Vector[Int] = Vector(2, 4, 3, 0, 0, 0, 9, 7, 8)
-    val vec2: Vector[Int] = Vector(0, 5, 1, 0, 1, 0, 0, 0, 2)
+    val vec1: List[Int] = List(2, 4, 3, 0, 0, 0, 9, 7, 8)
+    val vec2: List[Int] = List(0, 5, 1, 0, 1, 0, 0, 0, 2)
     
     val spar1: Map[Int, Int] = makeSparse(vec1)
     val spar2: Map[Int, Int] = makeSparse(vec2)
@@ -19,7 +19,7 @@ object problem10 { // Change to correct object name
     println(dotSumSparse(spar1, spar2))
   }
 
-  def makeSparse(vec: Vector[Int]): Map[Int, Int] = {
+  def makeSparse(vec: List[Int]): Map[Int, Int] = {
     var sparse: Map[Int, Int] = Map()
     
     for(i <- 0 until vec.length){

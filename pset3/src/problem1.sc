@@ -32,7 +32,7 @@ object Test {
       val them: Int = if(us == 0) 1 else 0
 
       val result = if(teams(us).isWinner(teams(them))) "winner" else "loser"
-      println(s"${teams(us).team} is the $result")
+      println(s"${teams(us).team} is the $result, score ${teams(us).getScore()}")
     }
   }
 }
