@@ -9,10 +9,10 @@ import java.io._
 import scala.util.matching.Regex
 
 // custom exceptions
-class UndefinedVariable(s: String) extends Exception(s){}
-class UndeclaredVariable(s: String) extends Exception(s){}
-class InvalidOperatorError(s: String) extends Exception(s){}
-class InvalidSyntaxError(s: String) extends Exception(s){}
+  class UndefinedVariable(s: String) extends Exception(s){}
+  class UndeclaredVariable(s: String) extends Exception(s){}
+  class InvalidOperatorError(s: String) extends Exception(s){}
+  class InvalidSyntaxError(s: String) extends Exception(s){}
 
 class Interpreter(src: String){
   var variables: Map[String, String] = Map()

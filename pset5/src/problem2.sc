@@ -6,7 +6,7 @@ import scala.io.StdIn._ // import all standard inputs
 import helpers.get._ // import helpers, get user input functions
 import scala.util.Random
 
-class Node(val value: Int, val parent: Node = null){
+class Node(val value: Int){
   var right: Node = null
   var left: Node = null
 }
@@ -21,11 +21,11 @@ class SortedList {
 
   private def place(num: Int, trav: Node): Unit = {
     if (num <= trav.value){
-      if(trav.left == null) trav.left = new Node(num, trav)
+      if(trav.left == null) trav.left = new Node(num)
       else place(num, trav.left)
     }
     else {
-      if(trav.right == null) trav.right = new Node(num, trav)
+      if(trav.right == null) trav.right = new Node(num)
       else place(num, trav.right)
     }
   }
@@ -34,13 +34,13 @@ class SortedList {
     if(n == null) return ()
 
     printNode(n.left)
+    // println(n.value)
     sortedL = n.value :: sortedL
     printNode(n.right)
   }
 
   def printTree(): Unit = {
     printNode(head)
-
     println(sortedL.reverse)
   }
 }
